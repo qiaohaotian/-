@@ -21,8 +21,8 @@ public class Main {
             return null;
         int row = matrixSize[0];
         int line = matrixSize[1];
-        List<String> finallis = Change.getStrList(terrain, line,row);
-        return Change.replaceW(Change.replaceString(finallis));
+        List<String> finallis = Change.splitStrList(terrain, line,row);
+        return Change.replaceW(Change.reverseString(finallis));
     }
 
     private static void printMatrix(List<String> finallis) {

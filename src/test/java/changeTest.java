@@ -48,8 +48,8 @@ public class changeTest {
         char[][] result=Change.changeToChar(input);
         List<Pair> pairList = new ArrayList<Pair>();
         pairList = Change.get_D_coordinate(result);
-
-        assertEquals('W',Change.nomalreplace(result,pairList)[1][2]);
+        Change.set_point_warning(result,pairList);
+        assertEquals('W',result[1][2]);
     }
 
 }

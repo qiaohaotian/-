@@ -12,7 +12,7 @@ public class Change {
         return new StringBuffer(str).reverse().toString();
     }
 
-    public static List<String> replaceString(List<String> str) {
+    public static List<String> reverseString(List<String> str) {
         for (int i = 0; i < str.size(); i++) {
             if (i % 2 != 0) {
                 Collections.replaceAll(str, str.get(i), reverseString(str.get(i)));
@@ -25,7 +25,7 @@ public class Change {
         char[][] map = changeToChar(str);
         List<Pair> pair = new ArrayList<Pair>();
         pair = Change.get_D_coordinate(map);
-        map = nomalreplace(map, pair);
+        set_point_warning(map, pair);
         List<String> terrain = new ArrayList<String>();
         for (int i = 0; i < map.length; i++) {
             terrain.add(String.valueOf(map[i]));
@@ -33,30 +33,30 @@ public class Change {
         return terrain;
     }
 
-    public static char[][] nomalreplace(char[][] map, List<Pair> pairlist) {
+    public static void set_point_warning(char[][] map, List<Pair> pairlist) {
+        for (int a = -1; a < 2; a++) {
+            for (int b = -1; b < 2; b++) {
+                if (a == 0 && b == 0) {
+                    continue;
+                }
+                change_W_limited(map, pairlist, a, b);
+            }
+        }
+    }
+
+    protected static void change_W_limited(char[][] map, List<Pair> pairlist, int a, int b) {
         int max_x = map.length;
         int max_y = map[0].length;
         for (int i = 0; i < pairlist.size(); i++) {
             Pair<Integer, Integer> pair = pairlist.get(i);
-            int x = pair.getKey();
-            int y = pair.getValue();
-
-            for (int a = -1; a < 2; a++) {
-                for (int b = -1; b < 2; b++) {
-                    if (a == 0 && b == 0) {
-                        continue;
-                    }
-                    int pointx = x + a;
-                    int pointy = y + b;
-                    if (is_in_range(pointx, pointy, max_x, max_y) && is_not_D(pointx, pointy, pairlist)) {
-                        System.out.println("ssss");
-                        map[pointx][pointy] = 'W';
-                        System.out.println(map[pointx][pointy]);
-                    }
-                }
+            int x = pair.getKey() + a;
+            int y = pair.getValue() + b;
+            if (is_in_range(x, y, max_x, max_y) && is_not_D(x, y, pairlist)) {
+                System.out.println("ssss");
+                map[x][y] = 'W';
+                System.out.println(map[x][y]);
             }
         }
-        return map;
     }
 
     private static boolean is_not_D(int x, int y, List<Pair> pairlist) {
@@ -89,7 +89,7 @@ public class Change {
         return row;
     }
 
-    public static List<String> getStrList(String inputString, int length, int size) {
+    public static List<String> splitStrList(String inputString, int length, int size) {
         List<String> list = new ArrayList<String>();
         for (int index = 0; index < size; index++) {
             String childStr = substring(inputString, index * length, (index + 1) * length);
